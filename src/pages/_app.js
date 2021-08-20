@@ -111,14 +111,9 @@ function MyApp ({ Component, pageProps }) {
 
     return (
         <MarketWrapper>
-          <UALProvider chains={[waxNet]} authenticators={wallets} appName={config.market_name}>
-              <CookieConsent>
-                  This website uses cookies to enhance the user experience.
-              </CookieConsent>
-              <QueryClientProvider client={queryClient}>
-                  <AppWithUAL {...pageProps} />
-              </QueryClientProvider>
-          </UALProvider>
+          <QueryClientProvider client={queryClient}>
+              <AppContainer {...pageProps} />
+          </QueryClientProvider>
         </MarketWrapper>
     );
 }
