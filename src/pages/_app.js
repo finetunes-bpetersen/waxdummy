@@ -8,7 +8,7 @@ import '../styles/Navigation.css';
 import '../styles/AssetPreview.scss';
 import '../styles/Buttons.css';
 import '../styles/Market.scss';
-
+import '../styles/globals.css';
 
 import {withUAL, UALProvider} from "ual-reactjs-renderer";
 import Footer from "../components/footer";
@@ -22,6 +22,7 @@ import PopupWrapper from "../components/popups/PopupWrapper";
 import {QueryClient, QueryClientProvider, useQuery} from 'react-query'
 import React, {useContext} from 'react';
 import MarketWrapper, {Context} from "../components/marketwrapper";
+import cn from "classnames";
 
 import config from '../config.json';
 import {api_endpoint, post} from "../components/api/Api";
@@ -98,12 +99,18 @@ function MyApp ({ Component, pageProps }) {
         loadCollections(dispatch);
 
         return (
-            <div className="App">
-                <Navigation {...props} />
-                <PopupWrapper {...props} />
-                <Component {...props} />
-                <Footer {...props} />
-            </div>
+          <div
+            className={cn(
+              'fixed top-0 left-0 h-full w-full',
+              'md:left-2',
+              'text-center text-blue-700 font-medium',
+            )}
+          >
+              <Navigation {...props} />
+              <PopupWrapper {...props} />
+              <Component {...props} />
+              <Footer {...props} />
+          </div>
         );
     };
 

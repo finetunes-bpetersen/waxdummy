@@ -1,10 +1,12 @@
 import React, {useState} from 'react';
 
-import Head from "next/dist/next-server/lib/head";
+import Header from "../common/util/Header"
 
 import CollectionDetails from "./CollectionDetails";
 
 import Link from 'next/link';
+import Header from "../common/util/Header"
+import Page from "../common/layout/Page"
 
 import config from '../../config.json';
 import StaticAssetList from "../staticassetlist/StaticAssetList";
@@ -36,18 +38,22 @@ const CollectionComponent = (props) => {
     const handleScroll = e => {
         let element = e.target;
 
-        if (element.className === 'Page') {
+        if (element.id === 'CollectionPage') {
             setShowScrollUpIcon(element.scrollTop > element.clientHeight);
         }
     };
 
     return (
-        <div className={"Page"} id={"CollectionPage"} onScroll={e => handleScroll(e)}>
-            <Head>
-                <meta id="og-title" property="og:title" content={('links.check_out_asset_name', {asset_name: `${name}`})} />
-                <meta id="og-description" property="og:description" content={description} />
-                <meta id="og-image" property="og:image" content={image} />
-                <meta name="msapplication-TileColor" content="#1235ba" />
+        <Page onScroll={e => handleScroll(e)} id="CollectionPage">
+            <Header
+                ogTitle={('links.check_out_asset_name', {asset_name: `${name}`})}
+                ogDescription={description}
+                ogImage={image}
+                pageImage={image}
+                twitterTitle={('links.check_out_asset_name', {asset_name: `${name}`})}
+                twitterDescription={description}
+                twitterImage={image}
+            >
                 <style type="text/css">
                     {
                         'body {' +
@@ -56,13 +62,8 @@ const CollectionComponent = (props) => {
                         '}'
                     }
                 </style>
-                <meta name="theme-color" content="#1A1A1A" />
-                <meta id="twitter-title" property="twitter:title" content={('links.check_out_asset_name', {asset_name: `${name}`})} />
-                <meta id="twitter-description" property="twitter:description" content={description} />
-                <meta id="twitter-image" property="twitter:image" content={image} />
                 {image && image.includes('.gif') ? <meta content="image/gif" property="og:image:type" /> : '' }
-                <link id='page-image' rel="apple-touch-icon" href={image} />
-            </Head>
+            </Header>
             {showImage ? <div className="FullImageView" onClick={toggleImage}>
                 <img src={image} />
             </div> : ''}
@@ -79,7 +80,7 @@ const CollectionComponent = (props) => {
             <Link href={`/market?tab=trades&collection=${collection_name}&order_by=offer&order_dir=DESC`}><div className="AssetListHeader">Top Sales<img src={"/frontpage/SVG/lupe.svg"} /></div></Link>
             <StaticAssetList type={'sales'} collection={collection_name} />
             {showScrollUpIcon ? <div className="ScrollUpIcon" onClick={scrollUp}><img src = "/up-arrow.svg" /></div> : '' }
-        </div>
+        </Page>
     );
 };
 
